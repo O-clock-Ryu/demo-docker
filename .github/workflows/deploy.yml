@@ -3,7 +3,7 @@ name: Deploy Vite React App
 on:
   push:
     branches:
-      - master
+      - main # Remplace "main" par ta branche si différente
 
 permissions:
   contents: write
@@ -15,8 +15,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false # Empêche la suppression des fichiers
 
-      - name: Install and Build
+      - name: Install dependencies and build
         run: |
           npm install
           npm run build
@@ -24,5 +26,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages
-          folder: dist
+          branch: gh-pages # La branche de déploiement
+          folder: dist # Dossier de sortie de Vite
+          clean: false # Empêche la suppression des fichiers du dépôt
